@@ -14,12 +14,13 @@ server = app.server
 df = pd.read_csv("covid-19-allegheny.csv")
 
 fig_total_cases = px.line(df, x=df.date, y=df.cases, title='Total Cases')
+fig_new_cases_absolute = px.line(df, x=df.date, y=df.new_cases, title='Total Cases')
 
 app.layout = html.Div([
 
     html.H1("Allegheny County COVID-19 Dashboard", style={'text-align': 'center'}),
-    dcc.Graph(id='my_bee_map', figure=fig_total_cases),
-    # dcc.Graph(id='my_bee_map2', figure={}),
+    dcc.Graph(id='total_cases', figure=fig_total_cases),
+    dcc.Graph(id='new_cases_absolute', figure=fig_new_cases_absolute),
     # dcc.Graph(id='my_bee_map3', figure={})
 
 ])

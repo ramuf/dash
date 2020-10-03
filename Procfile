@@ -1,1 +1,1 @@
-web: voila --port=$PORT --no-browser AlleghenyDashboard.ipynb
+web: gunicorn app:server --timeout 300

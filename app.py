@@ -22,16 +22,21 @@ df['cases_fatality'] = round(df.deaths/df.cases*100, 1)
 df['daily_incidence'] = round(df.new_cases/df.population*100000, 1)
 df['7_days_incidence'] = round(df.new_cases.rolling(min_periods=7, window=7).sum()/df.population*100000, 1)
 
-fig_total_cases = px.line(df, x=df.date, y=df.cases, title='Total Cases')
-fig_new_cases_absolute = px.line(df, x=df.date, y=df.new_cases, title='New Cases (Absolute)')
-fig_new_cases_smoothed = px.line(df, x=df.date, y=df.new_cases_smoothed, title='New Cases Smoothed (7 Days average)')
-fig_new_cases_incidence = px.line(df, x=df.date, y=df.daily_incidence, title='New Cases Incidence (per 100K population)')
-fig_new_cases_incidence_7_days = px.line(df, x=df.date, y=df['7_days_incidence'], title='7 Days New Cases Incidence (New Cases per 100K population for the past 7 days)')
+fig_total_cases = px.line(df, x=df.date, y=df.cases, title='Total Cases').update_layout(margin=dict(pad=10))
+fig_new_cases_absolute = px.line(df, x=df.date, y=df.new_cases, title='New Cases (Absolute)').update_layout(margin=dict(pad=10))
+fig_new_cases_smoothed = px.line(df, x=df.date, y=df.new_cases_smoothed, title='New Cases Smoothed (7 Days average)').update_layout(margin=dict(pad=10))
+fig_new_cases_incidence = px.line(df, x=df.date, y=df.daily_incidence, title='New Cases Incidence (per 100K population)').update_layout(margin=dict(pad=10))
+fig_new_cases_incidence_7_days = px.line(df, x=df.date, y=df['7_days_incidence'], title='7 Days New Cases Incidence (New Cases per 100K population for the past 7 days)').update_layout(margin=dict(pad=10))
+fig_total_deaths = px.line(df, x=df.date, y=df.deaths, title='Total Deaths').update_layout(margin=dict(pad=10))
+fig_new_deaths = px.line(df, x=df.date, y=df.new_deaths, title='New Deaths').update_layout(margin=dict(pad=10))
+fig_deaths_poll = px.line(df, x=df.date, y=df.deaths_poll, title='Deaths per 100k population').update_layout(margin=dict(pad=10))
+fig_fatality = px.line(df, x=df.date, y=df.cases_fatality, title='Fatality % (Total Deaths divided by Total Cases)').update_layout(margin=dict(pad=10))
 
-fig_total_deaths = px.line(df, x=df.date, y=df.deaths, title='Total Deaths')
-fig_new_deaths = px.line(df, x=df.date, y=df.new_deaths, title='New Deaths')
-fig_deaths_poll = px.line(df, x=df.date, y=df.deaths_poll, title='Deaths per 100k population')
-fig_fatality = px.line(df, x=df.date, y=df.cases_fatality, title='Fatality % (Total Deaths divided by Total Cases)')
+figures = ['fig_total_cases', 'fig_new_cases_absolute', 'fig_new_cases_smoothed', 'fig_new_cases_incidence',
+           'fig_new_cases_incidence_7_days', 'fig_total_deaths', 'fig_new_deaths', 'fig_deaths_poll', 'fig_deaths_poll']
+
+# for fig in figures:
+#     fig.update_layout(margin=dict(pad=10))
 
 app.layout = html.Div([
 

@@ -1,5 +1,6 @@
 pandas
 plotly
 dash
-dash-html-components==0.6.0
-dash-core-components==0.5.0
+dash-html-components
+dash-core-components
+gunicorn

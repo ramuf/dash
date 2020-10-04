@@ -10,6 +10,7 @@ from dash.dependencies import Input, Output
 pio.templates.default = "seaborn"
 
 app = dash.Dash(__name__)
+app.title = 'COVID-19 Allegheny Dashboard'
 
 server = app.server
 
@@ -36,6 +37,7 @@ fig_deaths_poll = px.line(df, x='date', y='deaths_poll', labels={'date':'Date', 
 fig_fatality = px.line(df, x='date', y='cases_fatality', labels={'date':'Date', 'cases_fatality':'Fatality %'}, title='Fatality % (Total Deaths divided by Total Cases)').update_layout(margin=dict(pad=10))
 
 last_date = 'Last Update: {}'.format(df.date.max())
+
 
 app.layout = html.Div([
 

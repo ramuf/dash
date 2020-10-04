@@ -23,13 +23,18 @@ a {
     color: #e95846;
     text-decoration: none;
 }
+.graphs {
+    margin: 20px 20px 20px 20px;
+}
+
 .graphs_top {
     column-count: 2;
-    margin: 10px 20px 10px 20px;
+    margin: 20px 20px 20px 20px;
 }
 
 .graphs_bottom {
     column-count: 3;
+    #column-span: 3;
     margin: 10px 20px 10px 20px;
 }
 

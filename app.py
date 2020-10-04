@@ -1,11 +1,13 @@
 import pandas as pd
 import plotly.express as px  # (version 4.7.0)
-# import plotly.graph_objects as go
+import plotly.io as pio
 
 import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+
+pio.templates.default = "seaborn"
 
 app = dash.Dash(__name__)
 
@@ -20,27 +22,32 @@ df['new_cases_smoothed'] = round(df.new_cases.rolling(min_periods=7, window=7).m
 df['deaths_poll'] = round(df.deaths/df.population*100000, 1)
 df['cases_fatality'] = round(df.deaths/df.cases*100, 1)
 df['daily_incidence'] = round(df.new_cases/df.population*100000, 1)
-df['7_days_incidence'] = round(df.new_cases.rolling(min_periods=7, window=7).sum()/df.population*100000, 1)
+df['seven_days_incidence'] = round(df.new_cases.rolling(min_periods=7, window=7).sum()/df.population*100000, 1)
 
-fig_total_cases = px.line(df, x=df.date, y=df.cases, title='Total Cases').update_layout(margin=dict(pad=10))
-fig_new_cases_absolute = px.bar(df, x=df.date, y=df.new_cases, title='New Cases (Absolute)').update_layout(margin=dict(pad=10))
-fig_new_cases_smoothed = px.line(df, x=df.date, y=df.new_cases_smoothed, title='New Cases Smoothed (7 Days average)').update_layout(margin=dict(pad=10))
-fig_new_cases_incidence = px.line(df, x=df.date, y=df.daily_incidence, title='New Cases Incidence (per 100K population)').update_layout(margin=dict(pad=10))
-fig_new_cases_incidence_7_days = px.line(df, x=df.date, y=df['7_days_incidence'], title='7 Days New Cases Incidence (New Cases per 100K population for the past 7 days)').update_layout(margin=dict(pad=10))
-fig_total_deaths = px.line(df, x=df.date, y=df.deaths, title='Total Deaths').update_layout(margin=dict(pad=10))
-fig_new_deaths = px.bar(df, x=df.date, y=df.new_deaths, title='New Deaths').update_layout(margin=dict(pad=10))
-fig_deaths_poll = px.line(df, x=df.date, y=df.deaths_poll, title='Deaths per 100k population').update_layout(margin=dict(pad=10))
-fig_fatality = px.line(df, x=df.date, y=df.cases_fatality, title='Fatality % (Total Deaths divided by Total Cases)').update_layout(margin=dict(pad=10))
+# layout = dict(margin=dict(pad=10), hoverlabel=dict(bgcolor="white", font_size=16, font_family="Rockwell"))
+fig_total_cases = px.line(df, x='date', y='cases', labels={'date':'Date', 'cases':'Total Cases'}, title='Total Cases').update_layout(margin=dict(pad=10))
+fig_new_cases_absolute = px.bar(df, x='date', y='new_cases', labels={'date':'Date', 'new_cases':'New Cases'}, title='New Cases (Absolute)').update_layout(margin=dict(pad=10))
+fig_new_cases_smoothed = px.line(df, x='date', y='new_cases_smoothed', labels={'date':'Date', 'new_cases_smoothed':'New Cases Smoothed'}, title='New Cases Smoothed (7 Days average)').update_layout(margin=dict(pad=10))
+fig_new_cases_incidence = px.line(df, x='date', y='daily_incidence', labels={'date':'Date', 'daily_incidence':'Daily Incidence Rate'}, title='Daily Incidence Rate (per 100K population)').update_layout(margin=dict(pad=10))
+fig_new_cases_incidence_7_days = px.line(df, x='date', y='seven_days_incidence', labels={'date':'Date', 'seven_days_incidence':'Seven Day Incidence Rate'}, title='7 Days New Cases Incidence (New Cases per 100K population for the past 7 days)').update_layout(margin=dict(pad=10))
+fig_total_deaths = px.line(df, x='date', y='deaths', labels={'date':'Date', 'deaths':'Total Deaths'}, title='Total Deaths').update_layout(margin=dict(pad=10))
+fig_new_deaths = px.bar(df, x='date', y='new_deaths', labels={'date':'Date', 'new_deaths':'New Deaths'}, title='New Deaths').update_layout(margin=dict(pad=10))
+fig_deaths_poll = px.line(df, x='date', y='deaths_poll', labels={'date':'Date', 'deaths_poll':'Deaths per 100k'}, title='Deaths per 100k population').update_layout(margin=dict(pad=10))
+fig_fatality = px.line(df, x='date', y='cases_fatality', labels={'date':'Date', 'cases_fatality':'Fatality %'}, title='Fatality % (Total Deaths divided by Total Cases)').update_layout(margin=dict(pad=10))
 
-figures = ['fig_total_cases', 'fig_new_cases_absolute', 'fig_new_cases_smoothed', 'fig_new_cases_incidence',
-           'fig_new_cases_incidence_7_days', 'fig_total_deaths', 'fig_new_deaths', 'fig_deaths_poll', 'fig_deaths_poll']
-
-# for fig in figures:
-#     fig.update_layout(margin=dict(pad=10))
+last_date = 'Last Update: {}'.format(df.date.max())
 
 app.layout = html.Div([
 
-    html.H1("Allegheny County COVID-19 Dashboard", style={'text-align': 'center'}),
+    html.H1("Allegheny County COVID-19 Dashboard", style={'text-align': 'center', 'background-color': 'lightblue'}),
+
+    html.Br(),
+
+    html.Div([
+        html.H4(last_date)
+    ]),
+
+    html.Br(),
 
     html.Div([
         dcc.Graph(id='new_cases_absolute', figure=fig_new_cases_absolute),

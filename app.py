@@ -15,7 +15,8 @@ app.title = 'COVID-19 Allegheny Dashboard'
 server = app.server
 
 df = pd.read_csv('https://raw.githubusercontent.com/FranklinChen/covid-19-allegheny-county/master/covid-19-allegheny-county.csv')
-
+# df = pd.read_csv('https://raw.githubusercontent.com/ramuf/covid-19-data-1/master/us-counties.csv')
+# df = df[(df['county'] == 'Allegheny') & (df['state'] == 'Pennsylvania')]
 df['population'] = 1216045
 df['new_cases'] = df.cases.diff()
 df['new_deaths'] = df.deaths.diff()
@@ -119,11 +120,11 @@ app.layout = html.Div([
             html.Div(children=fatality, className='price')
         ]),
         html.Div(className='pricing-table', children=[
-            html.H3('Daily Incidence Rate', className='pricing-title'),
+            html.H3('Daily Incidence Rate *', className='pricing-title'),
             html.Div(children=incidence, className='price')
         ]),
         html.Div(className='pricing-table', children=[
-            html.H3('7 Day Incidence Rate', className='pricing-title'),
+            html.H3('7 Day Incidence Rate **', className='pricing-title'),
             html.Div(children=seven_day_incidence, className='price')
         ]),
     ]),
@@ -155,7 +156,12 @@ app.layout = html.Div([
     ]),
 
     html.Br(),
-
+    html.H2('* Daily Incidence Rate: Number of new cases per 100k residents'),
+    html.Br(),
+    html.H2('** 7 Day Incidence Rate: Sum of the past 7 daily incidence rate'),
+    html.Br(),
+    html.Br(),
+    html.Br(),
 ])
 
 if __name__ == '__main__':

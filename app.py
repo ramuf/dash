@@ -176,10 +176,20 @@ app.layout = html.Div([
 
 
     html.Br(),
-    html.H2('* Daily Incidence Rate: Number of new cases per 100k residents'),
+    html.H2('* Daily Incidence Rate: Number of new cases per 100k residents', style={'margin' : '10px'}),
     html.Br(),
-    html.H2('** 7 Day Incidence Rate: Sum of the past 7 daily incidence rate'),
+    html.H2('** 7 Day Incidence Rate: Sum of the past 7 daily incidence rates', style={'margin' : '10px'}),
     html.Br(),
+    html.Div([
+        html.A('Dashboard generated from Franklin Chen dataset',
+               href='https://github.com/FranklinChen/covid-19-allegheny-county',
+               target="_blank",
+               style={'font-family': 'Times New Roman, Times, serif', 'font-weight': 'bold', 'font-size': 15, 'margin' : '10px'}),
+        # dcc.Link('Dashboard generated from Franklin Chen dataset',
+        #          href='https://github.com/FranklinChen/covid-19-allegheny-county',
+        #          style={'font-family': 'Times New Roman, Times, serif', 'font-weight': 'bold', 'font-size': 14, 'color' : 'grey'})
+    ]),
+    # html.Link('Dashboard generated from Franklin Chen dataset', href='https://github.com/FranklinChen/covid-19-allegheny-county'),
     html.Br(),
     html.Br(),
 ])

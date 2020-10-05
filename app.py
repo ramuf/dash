@@ -97,7 +97,6 @@ fig_new_cases_incidence_7_days.update_yaxes(showgrid=True, gridwidth=1, gridcolo
 fig_new_cases_incidence_7_days.update_traces(line_color=line_color, hovertemplate='%{x} <br><br>Seven Day Incidence Rate: %{y}')
 
 app.layout = html.Div([
-    # html.Br(),
 
     # html.H1("Allegheny County COVID-19 Dashboard", style={'text-align': 'center', 'background-color': 'lightblue'}),
     html.H1("Allegheny County COVID-19 Dashboard", className='title'),
@@ -193,6 +192,34 @@ app.layout = html.Div([
     html.Br(),
     html.Br(),
 ])
+
+app.index_string = """<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179590486-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'UA-179590486-1');
+        </script>
+        
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>"""
 
 if __name__ == '__main__':
     app.run_server(debug=True)
